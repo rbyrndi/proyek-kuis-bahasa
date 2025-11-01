@@ -1,7 +1,12 @@
-<?php 
-session_start(); if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) { header('Location: login.html'); exit(); } ?>
+<?php
+session_start();
+if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_logged_in'] !== true) {
+    header('Location: index.html');
+    exit();
+} ?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,13 +14,20 @@ session_start(); if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_lo
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="admin_style.css">
+    <link rel="stylesheet" href="admin_style.css?v=1.1">
 </head>
+
 <body>
     <div class="admin-container">
+
         <header>
             <h1>Dashboard Admin</h1>
-            <a href="../api/auth.php?logout=true" class="btn-logout">Logout</a>
+            <nav>
+                <a href="admin.php" class="active">Dashboard</a>
+                <a href="statistik.php">Statistics</a>
+                <a href="leaderboard.php" class="active">Leaderboard</a>
+                <a href="../api/auth.php?logout=true" class="btn-logout">Logout</a>
+            </nav>
         </header>
         <main>
             <section class="form-section">
@@ -57,10 +69,10 @@ session_start(); if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_lo
                     <div class="pilihan-jawaban-form">
                         <h4>Answer Options</h4>
                         <?php for ($i = 1; $i <= 4; $i++): ?>
-                        <div class="pilihan-item">
-                            <input type="radio" name="adalah_benar" id="benar_<?php echo $i; ?>" value="<?php echo $i; ?>" required>
-                            <input type="text" name="pilihan[]" placeholder="Option <?php echo chr(64 + $i); ?>" required>
-                        </div>
+                            <div class="pilihan-item">
+                                <input type="radio" name="adalah_benar" id="benar_<?php echo $i; ?>" value="<?php echo $i; ?>" required>
+                                <input type="text" name="pilihan[]" placeholder="Option <?php echo chr(64 + $i); ?>" required>
+                            </div>
                         <?php endfor; ?>
                     </div>
                     <div class="form-actions">
@@ -71,14 +83,34 @@ session_start(); if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_lo
                 </form>
             </section>
             <section class="table-section">
-                <h2>Daftar Soal</h2>
+                
+                <div class="filter-controls">
+                    <div class="form-group">
+                        <label for="filter-bahasa">Filter by Language:</label>
+                        <select id="filter-bahasa"></select>
+                    </div>
+                    <div class="form-group">
+                        <label for="filter-kategori">Filter by Category:</label>
+                        <select id="filter-kategori"></select>
+                    </div>
+                </div>
                 <table>
-                    <thead> <tr> <th>ID</th> <th>Language</th> <th>Category</th> <th>Question</th> <th>Points</th> <th>Image</th> <th>Action</th> </tr> </thead>
-                    <tbody id="tbody-soal"></tbody>
-                </table>
-            </section>
-        </main>
-    </div>
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Language</th>
+                            <th>Category</th>
+                            <th>Question</th>
+                            <th>Points</th>
+                            <th>Image</th>
+                            <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-soal"></tbody>
+                    </table>
+                </section>
+            </main>
+        </div>
     <!-- Modal untuk Preview -->
     <div id="preview-modal" class="modal">
         <div class="modal-content">
@@ -90,4 +122,5 @@ session_start(); if (!isset($_SESSION['admin_logged_in']) || $_SESSION['admin_lo
     </div>
     <script src="admin.js"></script>
 </body>
+
 </html>

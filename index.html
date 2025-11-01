@@ -3,24 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Global Quiz Game</title>
+    <title>Game Kuis BAHASA</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" href="data:,">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <!-- VIDEO BACKGROUND -->
+    <video id="bg-video" autoplay muted loop playsinline>
+        <source src="background.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+
     <div class="container">
         <!-- View 1: Beranda -->
         <div id="view-beranda" class="view active">
-            <h1>Global Quiz Game</h1>
-            <p>Test your knowledge in any language!</p>
-            <button id="btn-mulai" class="btn-primary">Start Playing!</button>
+            <h1>Cakrawala tiga Logat</h1>
+            <p>Test kemampuan bahasa kamu</p>
+            <button id="btn-mulai" class="btn-primary">Mulai Sekarang!</button>
         </div>
 
         <!-- View 2: Pemilihan Bahasa -->
         <div id="view-pemilihan-bahasa" class="view">
-            <h1>Choose Your Language</h1>
+            <h1>Pilih Bahasa nya</h1>
             <div class="pilihan-pelajaran">
                 <button class="btn-card" data-bahasa="en">English</button>
                 <button class="btn-card" data-bahasa="id">Bahasa Indonesia</button>
@@ -30,7 +37,7 @@
 
         <!-- View 3: Pemilihan Kategori -->
         <div id="view-pemilihan-kategori" class="view">
-            <h1 id="judul-pilih-kategori">Choose a Category</h1>
+            <h1 id="judul-pilih-kategori">Pilih Kategori</h1>
             <div id="daftar-kategori" class="pilihan-pelajaran">
                 <!-- Kategori akan diisi oleh JS -->
             </div>
@@ -43,10 +50,16 @@
 
         <!-- View 5: Kuis -->
         <div id="view-kuis" class="view">
+            <!-- NAVIGASI BAR - BARU -->
+            <nav class="quiz-nav">
+                <button id="btn-quiz-home" class="btn-nav" title="Home">🏠</button>
+                <button id="btn-quiz-restart" class="btn-nav" title="Restart Quiz">🔄</button>
+            </nav>
+
             <div class="kuis-header">
-                <h2 id="judul-kuis">Quiz</h2>
+                <h2 id="judul-kuis">Kuiss</h2>
                 <div class="header-info">
-                    <span id="indikator-soal">Question 1/10</span>
+                    <span id="indikator-soal">Pertanyaan 1/10</span>
                     <div class="timer-container">
                         <span id="timer">15</span>
                         <div class="timer-bar"><div id="timer-bar-inner"></div></div>
@@ -55,7 +68,7 @@
             </div>
             <div class="soal-container">
                 <img id="gambar-soal" src="" alt="" style="max-width: 100%; border-radius: 10px; margin-bottom: 15px; display: none;">
-                <p id="teks-soal">Question text will appear here.</p>
+                <p id="teks-soal">Pertanyaan akan muncul di sini!</p>
                 <p id="penjelasan" class="explanation"></p>
             </div>
             <div id="pilihan-jawaban" class="pilihan-container">
@@ -65,18 +78,18 @@
 
         <!-- View 6: Skor Akhir -->
         <div id="view-skor" class="view">
-            <h1>Quiz Finished!</h1>
+            <h1>Kuiss Selesai!</h1>
             <div class="skor-akhir">
-                <p>Your Score:</p>
+                <p>Skor Kamu:</p>
                 <h2 id="nilai-skor">0</h2>
-                <p id="feedback-text">Great job!</p>
+                <p id="feedback-text">Kerja Bagus!</p>
             </div>
             <div class="form-nama">
                 <input type="text" id="nama-pemain" placeholder="Enter your name for the leaderboard" maxlength="30">
-                <button id="btn-simpan-skor" class="btn-primary">Save Score</button>
+                <button id="btn-simpan-skor" class="btn-primary">Simpan Skor</button>
             </div>
             <div class="aksi-skor">
-                <button id="btn-ulangi" class="btn-secondary">Play Again</button>
+                <button id="btn-ulangi" class="btn-secondary">Main Lagi</button>
                 <button id="btn-ke-beranda" class="btn-primary">Home</button>
             </div>
         </div>

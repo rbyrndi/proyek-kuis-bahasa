@@ -1,6 +1,4 @@
 <?php
-error_reporting(E_ALL);
-
 session_start();
 require_once 'config.php';
 
@@ -8,7 +6,7 @@ require_once 'config.php';
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
-    header('Location: ../admin/login.html');
+    header('Location: ../admin/index.html');
     exit();
 }
 
@@ -21,16 +19,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $stmt->execute([$username]);
     $user = $stmt->fetch();
 
-    if ($user && password_verify($password, $user['password_hash'])) {
-        $_SESSION['admin_logged_in'] = true;
-        $_SESSION['admin_id'] = $user['id'];
-        header('Location: ../admin/admin.php');
-    } else {
-        // Redirect kembali ke login dengan pesan error (bisa pakai session flash)
-        header('Location: ../admin/login.html?error=1');
+    if (!$user) {
+        // Jika username tidak ditemukan
+        header('Location: ../admin/index.html?error=user_not_found');
+        exit();
     }
+
+    if (!password_verify($password, $user['password_hash'])) {
+        // Jika username ditemukan tapi password salah
+        header('Location: ../admin/index.html?error=password_incorrect');
+        exit();
+    }
+
+    // Jika username dan password benar
+    $_SESSION['admin_logged_in'] = true;
+    $_SESSION['admin_id'] = $user['id'];
+    header('Location: ../admin/admin.php');
 } else {
     // Jika bukan POST, redirect ke login
-    header('Location: ../admin/login.html');
+    header('Location: ../admin/index.html');
 }
 ?>

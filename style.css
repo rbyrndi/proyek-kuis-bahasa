@@ -1,53 +1,96 @@
 :root {
-    --primary-color: #4A90E2;
-    --secondary-color: #F5A623;
-    --success-color: #7ED321;
-    --danger-color: #D0021B;
+    /* Palet warna baru, terinspirasi dari background */
+    --primary-color: #6CBE45; /* Hijau daun yang segar */
+    --secondary-color: #FFC107; /* Kuning matahari yang cerah */
+    --tertiary-color: #4A90E2; /* Biru langit yang menenangkan */
+    --success-color: #4CAF50; /* Hijau solid untuk sukses */
+    --danger-color: #F44336; /* Merah solid untuk bahaya */
     --light-color: #F8F9FA;
-    --dark-color: #343A40;
+    --dark-color: #333333; /* Sedikit lebih gelap agar kontras */
     --white: #FFFFFF;
-    --shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    --font-family: 'Inter', sans-serif;
+    --shadow: 0 8px 30px rgba(0, 0, 0, 0.2); /* Bayangan lebih dramatis */
+    --shadow-hover: 0 12px 40px rgba(0, 0, 0, 0.25);
+    --font-family: 'Inter', sans-serif; /* Tetap pakai Inter */
 }
 
 body {
     font-family: var(--font-family);
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     color: var(--dark-color);
+    overflow: hidden; 
+    position: relative; /* Penting untuk pseudo-element di body */
+    background-color: #87CEEB; /* Warna fallback jika video tidak muat */
 }
 
+/* Overlay pada body untuk kontras yang lebih baik dengan teks */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.25); /* Overlay semi-transparan yang lebih ringan */
+    z-index: -1;
+}
+
+#bg-video {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translateX(-50%) translateY(-50%);
+    z-index: -2;
+    background-size: cover;
+    object-fit: cover;
+    filter: brightness(0.9); /* Sedikit redup agar elemen lain menonjol */
+}
+
+/* @keyframes gradientShift tidak digunakan lagi, dihapus */
+
+/* Container - dibuat lebih menyatu dan modern */
 .container {
-    background-color: var(--white);
-    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.85); /* Lebih transparan */
+    backdrop-filter: blur(15px); /* Blur lebih kuat untuk efek kaca */
+    border-radius: 25px; /* Lebih rounded */
     box-shadow: var(--shadow);
     width: 90%;
-    max-width: 600px;
+    max-width: 650px; /* Sedikit lebih lebar */
     padding: 40px;
     text-align: center;
     position: relative;
     overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.5); /* Border tipis untuk definisi */
 }
+
+/* Pseudo-element before dihapus dari container karena overlay sudah di body */
+/* .container::before { ... } */
 
 h1 {
-    font-size: 2.5em;
-    font-weight: 700;
+    font-size: 3em; /* Ukuran lebih besar */
+    font-weight: 800; /* Lebih tebal */
     color: var(--primary-color);
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Spasi lebih besar */
+    text-shadow: 2px 2px 5px rgba(0,0,0,0.1); /* Bayangan teks lembut */
 }
 
-h2 {
-    font-size: 1.8em;
-    color: var(--dark-color);
+h1 span {
+    color: var(--secondary-color);
 }
 
 p {
-    font-size: 1.1em;
-    color: #6c757d;
+    font-size: 1.2em; /* Lebih besar */
+    color: var(--dark-color); /* Warna lebih kontras */
+    line-height: 1.6;
+    margin-bottom: 25px;
 }
 
 .view {
@@ -56,79 +99,108 @@ p {
 
 .view.active {
     display: block;
-    animation: fadeIn 0.5s ease-in-out;
+    animation: fadeIn 0.6s ease-out; /* Animasi sedikit lebih panjang dan halus */
 }
 
 @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
+    from { opacity: 0; transform: translateY(30px); } /* Mulai dari lebih rendah */
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Buttons */
+/* Buttons - desain lebih lunak dan responsif */
 .btn-primary, .btn-secondary, .btn-card {
     border: none;
-    padding: 15px 30px;
-    font-size: 1.1em;
-    font-weight: 600;
-    border-radius: 50px;
+    padding: 18px 35px; /* Padding lebih besar */
+    font-size: 1.2em; /* Font lebih besar */
+    font-weight: 700; /* Lebih tebal */
+    border-radius: 30px; /* Lebih rounded, squircle-like */
     cursor: pointer;
-    transition: all 0.3s ease;
-    margin: 10px;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1); /* Transisi lebih halus */
+    margin: 12px;
+    position: relative;
+    overflow: hidden;
+    letter-spacing: 0.5px; /* Sedikit spasi antar huruf */
+}
+
+/* Efek hover untuk tombol */
+.btn-primary::before, .btn-secondary::before, .btn-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3); /* Efek kilau yang lebih jelas */
+    transform: translateX(-100%) skewX(-30deg); /* Animasi skew baru */
+    transition: transform 0.5s ease-out;
+}
+
+.btn-primary:hover::before, .btn-secondary:hover::before, .btn-card:hover::before {
+    transform: translateX(100%) skewX(-30deg);
 }
 
 .btn-primary {
     background-color: var(--primary-color);
     color: var(--white);
+    box-shadow: 0 4px 15px rgba(108, 190, 69, 0.4); /* Bayangan khusus warna */
 }
-.btn-primary:hover { background-color: #357ABD; transform: scale(1.05); }
+.btn-primary:hover { 
+    background-color: #5BA83E; /* Sedikit lebih gelap saat hover */
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 25px rgba(108, 190, 69, 0.6); 
+}
 
 .btn-secondary {
-    background-color: #e9ecef;
-    color: var(--dark-color);
+    background-color: var(--tertiary-color); /* Menggunakan warna biru langit */
+    color: var(--white);
+    box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
 }
-.btn-secondary:hover { background-color: #dee2e6; }
+.btn-secondary:hover { 
+    background-color: #3F7FC4; 
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 25px rgba(74, 144, 226, 0.5); 
+}
 
-/* Pemilihan Pelajaran & Kategori */
+/* Pemilihan Pelajaran & Kategori - layout lebih fleksibel */
 .pilihan-pelajaran {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Min lebar card lebih besar */
+    gap: 25px; /* Jarak antar card lebih besar */
+    margin-top: 20px;
 }
 
 .btn-card {
     background-color: var(--light-color);
     color: var(--dark-color);
-    border: 2px solid transparent;
-    padding: 30px 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    border: 2px solid rgba(0,0,0,0.1); /* Border lembut */
+    padding: 35px 25px; /* Padding lebih besar */
+    border-radius: 20px; /* Lebih rounded */
+    box-shadow: 0 6px 20px rgba(0,0,0,0.08); /* Bayangan lebih jelas */
+    font-size: 1.1em;
+    font-weight: 600;
 }
-.btn-card:hover { border-color: var(--primary-color); transform: translateY(-5px); box-shadow: var(--shadow); }
+.btn-card:hover { 
+    border-color: var(--primary-color); 
+    transform: translateY(-8px); /* Efek naik lebih tinggi */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15); 
+}
 
-/* Countdown */
-#view-countdown {
-    justify-content: center;
-    align-items: center;
-}
+/* Countdown - animasi lebih halus */
 #view-countdown.active {
     display: flex;
-    justify-content: center;
+    justify-content: center; 
     align-items: center;
 }
-
 .countdown-number {
-    font-size: 10rem;
-    font-weight: 700;
-    color: var(--primary-color);
-    animation: pulse 1s infinite;
+    font-size: 12rem; /* Ukuran lebih besar */
+    color: var(--secondary-color); /* Warna kuning matahari */
+    text-shadow: 0 0 30px rgba(255, 193, 7, 0.7); /* Efek glow yang lebih kuat */
+    animation: pulse 1.2s infinite ease-in-out; /* Animasi lebih panjang dan halus */
 }
 @keyframes pulse {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.1); }
-    100% { transform: scale(1); }
+    0% { transform: scale(0.95); opacity: 0.7; }
+    50% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(0.95); opacity: 0.7; }
 }
 
 /* Kuis */
@@ -136,59 +208,91 @@ p {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(0,0,0,0.1);
+}
+#judul-kuis {
+    font-size: 1.8em;
+    font-weight: 700;
+    color: var(--primary-color);
 }
 .header-info {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 20px;
 }
 #indikator-soal {
-    font-weight: 600;
+    font-weight: 700;
     color: var(--secondary-color);
+    font-size: 1.1em;
 }
 .timer-container {
     position: relative;
     display: flex;
     align-items: center;
+    background-color: var(--white);
+    border-radius: 50px;
+    padding: 5px 15px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
 }
 #timer {
-    font-weight: 700;
-    font-size: 1.2em;
+    font-weight: 800;
+    font-size: 1.3em;
     color: var(--dark-color);
+    min-width: 30px; /* Pastikan angka tidak "melompat" */
 }
 .timer-bar {
-    width: 100px;
-    height: 8px;
-    background-color: #e9ecef;
-    border-radius: 4px;
+    width: 120px; /* Lebih lebar */
+    height: 10px; /* Lebih tebal */
+    background-color: #E0E0E0;
+    border-radius: 5px;
     margin-left: 10px;
     overflow: hidden;
 }
 #timer-bar-inner {
     height: 100%;
-    background-color: var(--success-color);
+    background: linear-gradient(90deg, var(--success-color), #8BC34A); /* Gradient lebih halus */
     width: 100%;
     transition: width 1s linear;
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.6);
+    border-radius: 5px; /* Rounded agar sesuai container */
 }
 
 .soal-container {
-    background-color: var(--light-color);
-    padding: 20px;
-    border-radius: 15px;
-    margin-bottom: 25px;
+    background-color: var(--white); /* Lebih solid untuk kontras teks */
+    padding: 25px;
+    border-radius: 18px;
+    margin-bottom: 30px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    border: 1px solid rgba(0,0,0,0.05);
 }
-#teks-soal { font-size: 1.2em; font-weight: 600; }
+#gambar-soal {
+    max-width: 100%; 
+    height: auto; /* Pastikan proporsi terjaga */
+    border-radius: 15px; 
+    margin-bottom: 20px; 
+    display: none;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+#teks-soal { 
+    font-size: 1.4em; 
+    font-weight: 700; 
+    color: var(--dark-color);
+    margin-bottom: 15px;
+}
 .explanation {
-    margin-top: 15px;
-    padding: 10px;
-    background-color: #e7f3ff;
-    border-left: 4px solid var(--primary-color);
+    margin-top: 20px;
+    padding: 15px;
+    background-color: #E8F5E9; /* Warna hijau lembut */
+    border-left: 5px solid var(--success-color);
     text-align: left;
-    font-size: 0.9em;
-    display: none; /* Akan ditampilkan via JS */
+    font-size: 1em;
+    display: none;
+    border-radius: 8px;
+    color: #4CAF50; /* Teks penjelasan warna hijau */
 }
 
 .pilihan-container button {
@@ -196,47 +300,254 @@ p {
     width: 100%;
     text-align: left;
     background-color: var(--white);
-    border: 2px solid #e9ecef;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 10px;
+    border: 2px solid #E0E0E0; /* Border lebih lembut */
+    padding: 18px; /* Padding lebih besar */
+    margin-bottom: 12px;
+    border-radius: 12px; /* Lebih rounded */
     cursor: pointer;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    position: relative;
+    font-size: 1.1em;
+    font-weight: 500;
+    color: var(--dark-color);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
-.pilihan-container button:hover:not(.disabled) { background-color: var(--light-color); border-color: var(--primary-color); }
-.pilihan-container button.correct { background-color: var(--success-color); color: var(--white); border-color: var(--success-color); }
-.pilihan-container button.incorrect { background-color: var(--danger-color); color: var(--white); border-color: var(--danger-color); }
-.pilihan-container button.disabled { cursor: not-allowed; opacity: 0.7; }
+.pilihan-container button:hover:not(.disabled) { 
+    background-color: #F0F0F0; 
+    border-color: var(--tertiary-color); /* Biru langit saat hover */
+    transform: translateX(8px); /* Efek slide yang lebih jelas */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+.pilihan-container button.correct { 
+    background-color: var(--success-color); 
+    color: var(--white); 
+    border-color: var(--success-color);
+    animation: correctPulse 0.6s ease-out; /* Animasi lebih panjang */
+    box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+}
+@keyframes correctPulse {
+    0% { transform: scale(0.98); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+.pilihan-container button.incorrect { 
+    background-color: var(--danger-color); 
+    color: var(--white); 
+    border-color: var(--danger-color);
+    animation: shake 0.6s ease-in-out; /* Animasi lebih panjang */
+    box-shadow: 0 5px 20px rgba(244, 67, 54, 0.4);
+}
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-8px); } /* Shake lebih kuat */
+    20%, 40%, 60%, 80% { transform: translateX(8px); }
+}
+.pilihan-container button.disabled { cursor: not-allowed; opacity: 0.6; } /* Opacity lebih jelas */
 
 /* Skor Akhir */
-.skor-akhir h2 { font-size: 3em; color: var(--secondary-color); margin: 10px 0; }
+.skor-akhir h2 { 
+    font-size: 4em; /* Lebih besar */
+    color: var(--primary-color); /* Warna hijau */
+    margin: 15px 0; 
+    text-shadow: 2px 2px 10px rgba(108, 190, 69, 0.5);
+}
+#feedback-text {
+    font-size: 1.3em;
+    color: var(--dark-color);
+    font-weight: 600;
+    margin-bottom: 30px;
+}
 .form-nama {
-    margin: 20px 0;
+    margin: 30px 0;
 }
 #nama-pemain {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ced4da;
-    width: 80%;
-    margin-bottom: 10px;
+    padding: 12px 15px; /* Padding lebih besar */
+    border-radius: 8px; /* Lebih rounded */
+    border: 2px solid #CED4DA; /* Border lebih tebal */
+    width: 70%; /* Lebar sedikit dikurangi agar ada spasi */
+    max-width: 300px;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
-.aksi-skor { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+#nama-pemain:focus {
+    outline: none;
+    border-color: var(--tertiary-color); /* Fokus dengan warna biru */
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.6);
+}
+.aksi-skor { 
+    display: flex; 
+    justify-content: center; 
+    gap: 15px; /* Jarak antar tombol lebih besar */
+    flex-wrap: wrap; 
+}
 
 /* Loading Spinner */
-.spinner { border: 8px solid rgba(0,0,0,0.1); border-left: 8px solid var(--primary-color); border-radius: 50%; width: 60px; height: 60px; animation: spin 1s linear infinite; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); }
+.spinner { 
+    border: 8px solid rgba(0,0,0,0.1); 
+    border-top: 8px solid var(--primary-color); /* Warna spinner hijau */
+    border-radius: 50%; 
+    width: 60px; 
+    height: 60px; 
+    animation: spin 0.8s linear infinite; /* Animasi sedikit lebih cepat */
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    z-index: 100; /* Pastikan spinner di atas */
+}
 .spinner.hidden { display: none; }
 @keyframes spin { 0% { transform: translate(-50%, -50%) rotate(0deg); } 100% { transform: translate(-50%, -50%) rotate(360deg); } }
 
-/* Responsive Design */
+/* Quiz Navigation - lebih terlihat dan modern */
+.quiz-nav {
+    position: absolute;
+    top: 25px; /* Lebih jauh dari atas */
+    right: 25px; /* Lebih jauh dari kanan */
+    display: flex;
+    gap: 12px; /* Jarak antar tombol */
+    z-index: 10;
+}
+
+.btn-nav {
+    background-color: rgba(255, 255, 255, 0.4); /* Lebih solid */
+    color: var(--dark-color); /* Warna ikon lebih gelap */
+    border: 1px solid rgba(255, 255, 255, 0.5); /* Border lebih jelas */
+    width: 50px; /* Lebih besar */
+    height: 50px; /* Lebih besar */
+    border-radius: 50%;
+    font-size: 1.4em; /* Ikon lebih besar */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.btn-nav:hover {
+    background-color: rgba(255, 255, 255, 0.6); /* Lebih terang saat hover */
+    transform: scale(1.15) rotate(5deg); /* Efek zoom dan putar */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+}
+
+/* Toast Notification - tetap sama, sudah bagus */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 2000;
+}
+.toast {
+    background-color: var(--dark-color);
+    color: var(--white);
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transform: translateX(100%);
+    transition: all 0.3s ease-in-out;
+}
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+.toast.success { background-color: var(--success-color); }
+.toast.error { background-color: var(--danger-color); }
+
+/* Confetti Canvas - tetap sama */
+#confetti-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1999;
+}
+
+/* Responsive Design - disesuaikan untuk mobile */
 @media (max-width: 768px) {
-    .container {
-        padding: 20px;
-        width: 95%;
+    .container { 
+        padding: 30px 15px; /* Padding vertikal dan horizontal lebih kecil */
+        width: 98%; /* Hampir memenuhi lebar */
+        border-radius: 20px; 
+        max-width: none; /* Hilangkan max-width di mobile */
+    }
+    h1 { font-size: 2.2em; margin-bottom: 10px; }
+    p { font-size: 1em; margin-bottom: 20px; }
+    
+    .btn-primary, .btn-secondary, .btn-card {
+        padding: 15px 25px; /* Padding tombol lebih kecil */
+        font-size: 1em;
+        margin: 8px;
+        width: calc(100% - 16px); /* Buat tombol memenuhi lebar */
+        display: block; /* Pastikan tombol mengambil 100% lebar */
+    }
+
+    .pilihan-pelajaran {
+        grid-template-columns: 1fr; /* Satu kolom di mobile */
+        gap: 15px;
+    }
+
+    .btn-card {
+        padding: 25px 15px; /* Padding card di mobile */
         border-radius: 15px;
     }
-    h1 { font-size: 2em; }
-    .kuis-header { flex-direction: column; text-align: center; }
-    .header-info { flex-direction: column; gap: 5px; }
-    .btn-card { padding: 20px 15px; }
-    .countdown-number { font-size: 7rem; }
+
+    .countdown-number { font-size: 8rem; } /* Countdown lebih kecil */
+    
+    .kuis-header { 
+        flex-direction: column; 
+        text-align: center; 
+        gap: 10px;
+    }
+    #judul-kuis { font-size: 1.5em; }
+    .header-info { 
+        flex-direction: row; /* Tetap satu baris untuk info header */
+        justify-content: center;
+        width: 100%;
+        gap: 10px;
+    }
+    #indikator-soal { font-size: 1em; }
+    .timer-bar { width: 80px; height: 8px; margin-left: 5px; }
+    #timer { font-size: 1.1em; }
+
+    .soal-container { padding: 18px; margin-bottom: 20px; }
+    #teks-soal { font-size: 1.15em; margin-bottom: 10px; }
+    .pilihan-container button { padding: 15px; font-size: 1em; margin-bottom: 8px; border-radius: 10px;}
+
+    .skor-akhir h2 { font-size: 3em; }
+    #feedback-text { font-size: 1.1em; margin-bottom: 20px; }
+    #nama-pemain { width: 90%; font-size: 1em; }
+    .aksi-skor { gap: 10px; }
+
+    .quiz-nav {
+        top: 15px;
+        right: 15px;
+        gap: 8px;
+    }
+    .btn-nav {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2em;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 { font-size: 1.8em; }
+    .btn-primary, .btn-secondary, .btn-card {
+        font-size: 0.95em;
+        padding: 12px 20px;
+    }
+    .countdown-number { font-size: 6rem; }
+    #teks-soal { font-size: 1.1em; }
+    .pilihan-container button { font-size: 0.95em; padding: 12px; }
+    #nama-pemain { width: 95%; }
+    .btn-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 1em;
+    }
 }
